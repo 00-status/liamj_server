@@ -14,7 +14,6 @@ builder.Services.AddScoped<SaveWeaponEffectService>();
 
 var app = builder.Build();
 
-
 app.MapGet("/api/1/weapon_effects", (ListWeaponEffectService service) => service.ListWeaponEffects());
 app.MapPost(
     "/api/1/weapon_effects",

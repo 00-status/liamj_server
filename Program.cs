@@ -25,5 +25,3 @@ app.UseRouting();
 app.UseSpa(spa => { });
 
 app.Run();
-
-app.Run();

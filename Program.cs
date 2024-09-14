@@ -26,12 +26,13 @@ app.MapPost(
 // Builder class
 //      Instantiates a weapon's base properties.
 //      Randomly picks extra damage based on rarity.
-//      Randomly picks an Action based on rarity.
-//          Actions are retrieved from the DB.
+//      Randomly picks a WeaponAction based on rarity.
+//          WeaponActions are retrieved from the DB.
 // Call Google's Gemini 2 API to generate an evocative name.
-// Save the completed weapon to the DB.
-// Return generated weapon.
-
+// Add the evocative name to the builder.
+// Build the new Weapon.
+// Save the completed Weapon to the DB.
+// Return the generated Weapon in the API response.
 
 app.UseStaticFiles();
 app.UseRouting();

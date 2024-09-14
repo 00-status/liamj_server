@@ -9,11 +9,17 @@ builder.Services.AddDbContext<WeaponEffectDBContext>(options => {
     options.UseNpgsql(partialConnectionString);
 });
 
+builder.Services.AddScoped<GenerateWeaponService>();
 builder.Services.AddScoped<ListWeaponEffectService>();
 builder.Services.AddScoped<SaveWeaponEffectService>();
 
 var app = builder.Build();
 
+
+app.MapGet(
+    "/api/1/generate_weapon",
+    (GenerateWeaponService service) => service.GenerateWeapon()
+);
 app.MapGet(
     "/api/1/weapon_effects",
     (ListWeaponEffectService service) => service.ListWeaponEffects()
@@ -22,6 +28,17 @@ app.MapPost(
     "/api/1/weapon_effects",
     (SaveWeaponEffectService service, WeaponEffect weaponEffect) => service.SaveWeapon(weaponEffect)
 );
+
+
+// GenerateWeaponService
+//      Instantiates a new builder.
+//      Randomly picks a base weapon.
+//      Adds base weapon properties to builder.
+//      randomly picks extra damage based on rarity.
+//      Fetches WeaponActions from the DB.
+//      randomly picks a WeaponAction based on rarity.
+//      Build the new weapon.
+//      return the new weapon through the API.
 
 // Builder class
 //      Instantiates a weapon's base properties.

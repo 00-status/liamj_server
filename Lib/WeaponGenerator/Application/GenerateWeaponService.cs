@@ -11,11 +11,7 @@ public class GenerateWeaponService
     {
         WeaponBuilder builder = new();
 
-        MundaneWeaponContext mundaneWeaponContext = new();
-
-        Random random = new();
-        int randomIndex = random.Next(mundaneWeaponContext.MundaneWeapons.Count);
-        MundaneWeapon randomMundaneWeapon = mundaneWeaponContext.MundaneWeapons[randomIndex];
+        MundaneWeapon randomMundaneWeapon = PickMundaneWeapon();
 
         Weapon generatedWeapon = builder
             .SetRarity("Uncommon")
@@ -33,7 +29,15 @@ public class GenerateWeaponService
         // randomly picks a WeaponAction based on rarity.
         // Build the new weapon. ✅
         // return the new weapon through the API. ✅
+    }
 
-        throw new NotImplementedException();
+    private static MundaneWeapon PickMundaneWeapon()
+    {
+        MundaneWeaponContext mundaneWeaponContext = new();
+        Random random = new();
+
+        int randomIndex = random.Next(mundaneWeaponContext.MundaneWeapons.Count);
+
+        return mundaneWeaponContext.MundaneWeapons[randomIndex];
     }
 }

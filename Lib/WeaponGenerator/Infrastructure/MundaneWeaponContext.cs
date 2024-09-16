@@ -2,6 +2,7 @@
 public class MundaneWeaponContext
 {
     public List<MundaneWeapon> MundaneWeapons;
+    public List<ExtraDamage> ExtraDamages;
 
     public MundaneWeaponContext()
     {
@@ -25,23 +26,34 @@ public class MundaneWeaponContext
             new MundaneWeapon("Warhammer",  ["Versatile"],              new WeaponDamage(1, 8, "Bludgeoning"),  0, 0),
             new MundaneWeapon("Whip",       ["Finesse", "Reach"],       new WeaponDamage(1, 4, "Slashing"),     0, 0),
         ]);
+
+        ExtraDamages = new List<ExtraDamage>(
+            [
+                new ExtraDamage(new WeaponDamage(1, 6, "Acid"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(2, 6, "Acid"), ["Uncommon", "Rare"]),
+                new ExtraDamage(new WeaponDamage(3, 6, "Acid"), ["Very Rare", "Legendary"]),
+                new ExtraDamage(new WeaponDamage(4, 6, "Acid"), ["Legendary"]),
+                new ExtraDamage(new WeaponDamage(1, 12, "Bludgeoning"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(2, 12, "Bludgeoning"), ["Rare", "Very Rare"]),
+                new ExtraDamage(new WeaponDamage(3, 12, "Bludgeoning"), ["Very Rare", "Legendary"]),
+                new ExtraDamage(new WeaponDamage(1, 6, "Cold"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(1, 6, "Fire"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(1, 6, "Force"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(1, 6, "Lightning"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(1, 6, "Necrotic"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(2, 4, "Piercing"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(4, 4, "Piercing"), ["Uncommon", "Rare"]),
+                new ExtraDamage(new WeaponDamage(5, 4, "Piercing"), ["Rare", "Very Rare"]),
+                new ExtraDamage(new WeaponDamage(6, 6, "Piercing"), ["Very Rare", "Legendary"]),
+                new ExtraDamage(new WeaponDamage(1, 6, "Poison"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(1, 6, "Psychic"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(1, 6, "Radiant"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(1, 6, "Slashing"), ["Uncommon"]),
+                new ExtraDamage(new WeaponDamage(1, 6, "Thunder"), ["Uncommon"]),
+            ]
+        );
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

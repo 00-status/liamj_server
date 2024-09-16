@@ -25,8 +25,8 @@ public class GenerateWeaponService
         // Randomly picks a base weapon. ✅
         // Adds base weapon properties to builder. ✅
         // randomly picks extra damage based on rarity.
-        // Fetches WeaponActions from the DB.
-        // randomly picks a WeaponAction based on rarity.
+        // Fetches WeaponEffects from the DB.
+        // randomly picks a WeaponEffect based on rarity.
         // Build the new weapon. ✅
         // return the new weapon through the API. ✅
     }

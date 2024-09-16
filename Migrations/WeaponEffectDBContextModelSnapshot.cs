@@ -40,9 +40,9 @@ namespace server.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
-                    b.Property<string>("Tags")
+                    b.Property<string[]>("Tags")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text[]");
 
                     b.HasKey("Id");
 

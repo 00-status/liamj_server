@@ -20,7 +20,7 @@ namespace server.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Rarities = table.Column<string[]>(type: "text[]", nullable: false),
-                    Tags = table.Column<string>(type: "text", nullable: false)
+                    Tags = table.Column<string[]>(type: "text[]", nullable: false)
                 },
                 constraints: table =>
                 {

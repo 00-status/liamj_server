@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace server.Migrations
 {
     [DbContext(typeof(WeaponEffectDBContext))]
-    [Migration("20240910171744_InitialMigration")]
+    [Migration("20240916175358_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -43,9 +43,9 @@ namespace server.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
-                    b.Property<string>("Tags")
+                    b.Property<string[]>("Tags")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text[]");
 
                     b.HasKey("Id");
 

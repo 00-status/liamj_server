@@ -1,6 +1,9 @@
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+string? GAK = builder.Configuration["GAK"];
 
 builder.Services.AddDbContext<WeaponEffectDBContext>(options => {
     var partialConnectionString = builder.Configuration.GetConnectionString("PostgreSqlDatabase");
@@ -15,7 +18,29 @@ builder.Services.AddScoped<SaveWeaponEffectService>();
 
 var app = builder.Build();
 
+app.MapGet(
+    "/api/1/test",
+    async () => {
+        if (GAK == null) {
+            return "No GAK :(";
+        }
 
+        string URI = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + GAK;
+        string body = "{ \"contents\": [{\"parts\": [{\"text\": \"Generate an evocative fantasy name for a longsword-type weapon. It should be 1-5 words. Use some of the following tags: { holy, fire, obsidian, speed }. Do not generate a preamble or explanation - just generate the name itself. Thanks!\" }] }] }";
+
+        HttpRequestMessage request = new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri(URI),
+            Content = new StringContent(body, Encoding.UTF8, "application/json")
+        };
+
+        HttpClient httpClient = new();
+        HttpResponseMessage response = await httpClient.SendAsync(request);
+
+        return await response.Content.ReadAsStringAsync();
+    }
+);
 app.MapGet(
     "/api/1/generate_weapon",
     (GenerateWeaponService service) => service.GenerateWeapon()

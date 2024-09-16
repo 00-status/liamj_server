@@ -44,15 +44,15 @@ public class GenerateWeaponService
         // return the new weapon through the API. ✅
     }
 
-    private ExtraDamage PickExtraDamage()
-    {
-        int randomIndex = Random.Next(MundaneWeaponContext.ExtraDamages.Count());
-        return MundaneWeaponContext.ExtraDamages[randomIndex];
-    }
-
     private MundaneWeapon PickMundaneWeapon()
     {
         int randomIndex = Random.Next(MundaneWeaponContext.MundaneWeapons.Count);
         return MundaneWeaponContext.MundaneWeapons[randomIndex];
+    }
+
+    private ExtraDamage PickExtraDamage()
+    {
+        int randomIndex = Random.Next(MundaneWeaponContext.ExtraDamages.Count());
+        return MundaneWeaponContext.ExtraDamages[randomIndex];
     }
 }

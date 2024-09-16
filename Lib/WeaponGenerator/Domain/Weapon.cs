@@ -7,6 +7,7 @@ public class Weapon
     public string[] Properties { get; set; }
     public WeaponDamage BaseDamage { get; set; }
     public WeaponDamage ExtraDamage { get; set; }
+    public WeaponEffect WeaponEffect { get; set; }
     public int EffectiveRange { get; set; }
     public int IneffectiveRange { get; set; }
 
@@ -18,6 +19,7 @@ public class Weapon
         string[] properties,
         WeaponDamage baseDamage,
         WeaponDamage extraDamage,
+        WeaponEffect weaponEffect,
         int effecttiveRange,
         int ineffectiveRange
     ) {
@@ -28,6 +30,7 @@ public class Weapon
         this.Properties = properties;
         this.BaseDamage = baseDamage;
         this.ExtraDamage = extraDamage;
+        this.WeaponEffect = weaponEffect;
         this.EffectiveRange = effecttiveRange;
         this.IneffectiveRange = ineffectiveRange;
     }

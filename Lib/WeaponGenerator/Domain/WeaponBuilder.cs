@@ -58,6 +58,7 @@ public class WeaponBuilder
             && EffectiveRange is int effectiveRange
             && IneffectiveRange is int ineffectiveRange
             && ExtraDamage != null
+            && WeaponEffect != null
         ) {
             return new Weapon(
                 0,
@@ -67,6 +68,7 @@ public class WeaponBuilder
                 Properties,
                 BaseDamage,
                 ExtraDamage,
+                WeaponEffect,
                 effectiveRange,
                 ineffectiveRange
             );

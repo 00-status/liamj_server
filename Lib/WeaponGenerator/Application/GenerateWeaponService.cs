@@ -25,7 +25,7 @@ public class GenerateWeaponService
 
         string weaponName = await GoogleGeminiApiClient.GenerateWeaponName(
             randomMundaneWeapon.Name,
-            new List<string>().ToArray()
+            new List<string>(extraDamage.Tags)
         );
 
         Weapon generatedWeapon = builder

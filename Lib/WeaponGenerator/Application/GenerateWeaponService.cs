@@ -3,30 +3,34 @@ public class GenerateWeaponService
     private readonly Random Random;
     private readonly MundaneWeaponContext MundaneWeaponContext;
     private readonly WeaponEffectDBContext WeaponEffectDBContext;
+    private readonly GoogleGeminiApiClient GoogleGeminiApiClient;
 
-    public GenerateWeaponService(WeaponEffectDBContext weaponEffectDBContext)
-    {
+    public GenerateWeaponService(
+        WeaponEffectDBContext weaponEffectDBContext,
+        GoogleGeminiApiClient googleGeminiApiClient
+    ) {
         Random = new();
         MundaneWeaponContext = new();
         this.WeaponEffectDBContext = weaponEffectDBContext;
+        this.GoogleGeminiApiClient = googleGeminiApiClient;
     }
 
-    public IResult GenerateWeapon()
+    public async Task<IResult> GenerateWeapon()
     {
         WeaponBuilder builder = new();
 
         MundaneWeapon randomMundaneWeapon = PickMundaneWeapon();
         ExtraDamage extraDamage = PickExtraDamage();
+        WeaponEffect randomWeaponEffect = PickWeaponEffect();
 
-        List<WeaponEffect> weapons = WeaponEffectDBContext.WeaponEffects.ToList();
-        int randomIndex = Random.Next(weapons.Count);
-        WeaponEffect randomWeaponEffect = weapons[randomIndex];
+        string weaponName = await GoogleGeminiApiClient.GenerateWeaponName("", new List<string>().ToArray());
 
         Weapon generatedWeapon = builder
             .SetRarity("Uncommon")
             .SetMundaneWeaponProperties(randomMundaneWeapon)
             .SetExtraDamage(extraDamage.WeaponDamage)
             .SetWeaponEffect(randomWeaponEffect)
+            .SetName(weaponName)
             .Build();
 
         return Results.Ok(generatedWeapon);
@@ -54,5 +58,13 @@ public class GenerateWeaponService
     {
         int randomIndex = Random.Next(MundaneWeaponContext.ExtraDamages.Count());
         return MundaneWeaponContext.ExtraDamages[randomIndex];
+    }
+
+    private WeaponEffect PickWeaponEffect()
+    {
+        List<WeaponEffect> weapons = WeaponEffectDBContext.WeaponEffects.ToList();
+        int randomIndex = Random.Next(weapons.Count);
+        WeaponEffect randomWeaponEffect = weapons[randomIndex];
+        return randomWeaponEffect;
     }
 }

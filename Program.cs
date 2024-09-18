@@ -15,6 +15,7 @@ builder.Services.AddDbContext<WeaponEffectDBContext>(options => {
 builder.Services.AddScoped<GenerateWeaponService>();
 builder.Services.AddScoped<ListWeaponEffectService>();
 builder.Services.AddScoped<SaveWeaponEffectService>();
+
 builder.Services.AddScoped<GoogleGeminiApiClient>();
 
 var app = builder.Build();

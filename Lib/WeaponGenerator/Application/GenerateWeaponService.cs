@@ -23,7 +23,10 @@ public class GenerateWeaponService
         ExtraDamage extraDamage = PickExtraDamage();
         WeaponEffect randomWeaponEffect = PickWeaponEffect();
 
-        string weaponName = await GoogleGeminiApiClient.GenerateWeaponName("", new List<string>().ToArray());
+        string weaponName = await GoogleGeminiApiClient.GenerateWeaponName(
+            randomMundaneWeapon.Name,
+            new List<string>().ToArray()
+        );
 
         Weapon generatedWeapon = builder
             .SetRarity("Uncommon")

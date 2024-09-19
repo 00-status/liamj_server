@@ -13,8 +13,7 @@ public class GoogleGeminiApiClient
         GAK = configuration.GetValue<string>("GAK");
     }
 
-    // TODO: Handle non-success statuses more gracefully.
-    public async Task<string> GenerateWeaponName(string weaponType, List<string> weaponTags)
+    public async Task<string?> GenerateWeaponName(string weaponType, List<string> weaponTags)
     {
         if (GAK == null) {
             throw new DomainException("Cannot send Google API request!");
@@ -33,15 +32,18 @@ public class GoogleGeminiApiClient
         HttpClient httpClient = new();
         HttpResponseMessage response = await httpClient.SendAsync(request);
 
-        string stringResponse = await response.Content.ReadAsStringAsync();
-
-        Root? root = JsonSerializer.Deserialize<Root>(stringResponse);
-
-        if (root == null) {
-            return "";
+        if (!response.IsSuccessStatusCode) {
+            return null;
         }
 
-        return root.Candidates[0].Content.Parts[0].Text;
+        string stringResponse = await response.Content.ReadAsStringAsync();
+        Root? parsedJsonResponse = JsonSerializer.Deserialize<Root>(stringResponse);
+
+        if (parsedJsonResponse == null) {
+            return null;
+        }
+
+        return parsedJsonResponse.Candidates[0].Content.Parts[0].Text;
     }
 }
 

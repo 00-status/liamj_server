@@ -19,28 +19,28 @@ public class GenerateWeaponService
 
     public async Task<IResult> GenerateWeapon()
     {
-        WeaponBuilder builder = new();
-
         MundaneWeapon randomMundaneWeapon = PickMundaneWeapon();
         ExtraDamage extraDamage = PickExtraDamage();
         WeaponEffect randomWeaponEffect = PickWeaponEffect();
 
         List<string> tagList = new([.. extraDamage.Tags, .. randomWeaponEffect.Tags]);
 
-        string weaponName = await GoogleGeminiApiClient.GenerateWeaponName(
+        string? weaponName = await GoogleGeminiApiClient.GenerateWeaponName(
             randomMundaneWeapon.Name,
             tagList
         );
 
-        Weapon generatedWeapon = builder
+        WeaponBuilder builder = new WeaponBuilder()
             .SetRarity("Uncommon")
             .SetMundaneWeaponProperties(randomMundaneWeapon)
             .SetExtraDamage(extraDamage.WeaponDamage)
-            .SetWeaponEffect(randomWeaponEffect)
-            .SetName(weaponName)
-            .Build();
+            .SetWeaponEffect(randomWeaponEffect);
 
-        return Results.Ok(generatedWeapon);
+        if (weaponName != null) {
+            builder.SetName(weaponName);
+        }
+
+        return Results.Ok(builder.Build());
 
         // Instantiates a new builder. ✅
         // Randomly picks a base weapon. ✅
@@ -48,7 +48,7 @@ public class GenerateWeaponService
         // randomly picks extra damage. ✅
         // Fetches WeaponEffects from the DB. ✅
         // randomly picks a WeaponEffect. ✅
-        // Call Google Gemini to generate name.
+        // Call Google Gemini to generate name. ✅
         // Select traits on each step based on rarity.
         // Build the new weapon. ✅
         // Save the built weapon to the DB.

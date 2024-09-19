@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 public class GenerateWeaponService
 {
     private readonly Random Random;
@@ -23,9 +25,11 @@ public class GenerateWeaponService
         ExtraDamage extraDamage = PickExtraDamage();
         WeaponEffect randomWeaponEffect = PickWeaponEffect();
 
+        List<string> tagList = new([.. extraDamage.Tags, .. randomWeaponEffect.Tags]);
+
         string weaponName = await GoogleGeminiApiClient.GenerateWeaponName(
             randomMundaneWeapon.Name,
-            new List<string>(extraDamage.Tags)
+            tagList
         );
 
         Weapon generatedWeapon = builder

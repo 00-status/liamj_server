@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 public class GoogleGeminiApiClient
 {
     private string URI = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
-    private string BODY = "{ \"contents\": [{\"parts\": [{\"text\": \"Generate an evocative fantasy name for a {{weapon-type}}-type weapon. It should be 1-5 words. Use some of the following tags: {{weapon-tags}}. Do not generate a preamble or explanation - just generate the name itself. Thanks!\" }] }] }";
+    private string BODY = "{ \"contents\": [{\"parts\": [{\"text\": \"Generate a single, evocative fantasy name for a {{weapon-type}}-type weapon. It should be 1-5 words. Do not include newlines in your response. Use some of the following tags: {{weapon-tags}}. Do not generate a preamble or explanation - just generate the name itself. Thanks!\" }] }] }";
     private string? GAK;
 
     public GoogleGeminiApiClient(IConfiguration configuration)

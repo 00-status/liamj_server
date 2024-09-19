@@ -22,7 +22,7 @@ var app = builder.Build();
 
 app.MapGet(
     "/api/1/generate_weapon",
-    (GenerateWeaponService service) => service.GenerateWeapon()
+    (GenerateWeaponService service, string? rarity) => service.GenerateWeapon(rarity ?? "Uncommon")
 );
 app.MapGet(
     "/api/1/weapon_effects",

@@ -15,10 +15,36 @@ public class GoogleGeminiApiClient
 
     public async Task<string?> GenerateWeaponName(string weaponType, List<string> weaponTags)
     {
-        if (GAK == null) {
+        if (GAK == null)
+        {
             throw new DomainException("Cannot send Google API request!");
         }
 
+        HttpClient httpClient = new();
+        HttpRequestMessage request = CreateRequest(weaponType, weaponTags);
+        HttpResponseMessage response = await httpClient.SendAsync(request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
+        string stringResponse = await response.Content.ReadAsStringAsync();
+        Root? parsedJsonResponse = JsonSerializer.Deserialize<Root>(stringResponse);
+
+        if (parsedJsonResponse == null
+            || parsedJsonResponse.Candidates.Count == 0
+            || parsedJsonResponse.Candidates[0].Content.Parts.Count == 0
+        )
+        {
+            return null;
+        }
+
+        return parsedJsonResponse.Candidates[0].Content.Parts[0].Text;
+    }
+
+    private HttpRequestMessage CreateRequest(string weaponType, List<string> weaponTags)
+    {
         string bodyWithWeaponName = BODY.Replace("{{weapon-type}}", weaponType);
         string bodyWithTags = bodyWithWeaponName.Replace("{{weapon-tags}}", string.Join(", ", weaponTags.ToArray()));
 
@@ -28,22 +54,8 @@ public class GoogleGeminiApiClient
             RequestUri = new Uri(URI + GAK),
             Content = new StringContent(bodyWithTags, Encoding.UTF8, "application/json")
         };
-
-        HttpClient httpClient = new();
-        HttpResponseMessage response = await httpClient.SendAsync(request);
-
-        if (!response.IsSuccessStatusCode) {
-            return null;
-        }
-
-        string stringResponse = await response.Content.ReadAsStringAsync();
-        Root? parsedJsonResponse = JsonSerializer.Deserialize<Root>(stringResponse);
-
-        if (parsedJsonResponse == null) {
-            return null;
-        }
-
-        return parsedJsonResponse.Candidates[0].Content.Parts[0].Text;
+        
+        return request;
     }
 }
 

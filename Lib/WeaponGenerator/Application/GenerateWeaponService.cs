@@ -17,11 +17,12 @@ public class GenerateWeaponService
         this.GoogleGeminiApiClient = googleGeminiApiClient;
     }
 
-    public async Task<IResult> GenerateWeapon()
+    // Replace string constants with enums.
+    public async Task<IResult> GenerateWeapon(string rarity)
     {
         MundaneWeapon randomMundaneWeapon = PickMundaneWeapon();
-        ExtraDamage extraDamage = PickExtraDamage();
-        WeaponEffect randomWeaponEffect = PickWeaponEffect();
+        ExtraDamage extraDamage = PickExtraDamage(rarity);
+        WeaponEffect randomWeaponEffect = PickWeaponEffect(rarity);
 
         List<string> tagList = new([.. extraDamage.Tags, .. randomWeaponEffect.Tags]);
 
@@ -31,7 +32,7 @@ public class GenerateWeaponService
         );
 
         WeaponBuilder builder = new WeaponBuilder()
-            .SetRarity("Uncommon")
+            .SetRarity(rarity)
             .SetMundaneWeaponProperties(randomMundaneWeapon)
             .SetExtraDamage(extraDamage.WeaponDamage)
             .SetWeaponEffect(randomWeaponEffect);
@@ -61,17 +62,25 @@ public class GenerateWeaponService
         return MundaneWeaponContext.MundaneWeapons[randomIndex];
     }
 
-    private ExtraDamage PickExtraDamage()
+    private ExtraDamage PickExtraDamage(string rarity)
     {
-        int randomIndex = Random.Next(MundaneWeaponContext.ExtraDamages.Count());
-        return MundaneWeaponContext.ExtraDamages[randomIndex];
+        List<ExtraDamage> filteredExtraDamages = MundaneWeaponContext.ExtraDamages.FindAll(extraDamage => {
+            return extraDamage.RarityLevels.ToList().Contains(rarity);
+        });
+
+        int randomIndex = Random.Next(filteredExtraDamages.Count());
+        return filteredExtraDamages[randomIndex];
     }
 
-    private WeaponEffect PickWeaponEffect()
+    private WeaponEffect PickWeaponEffect(string rarity)
     {
-        List<WeaponEffect> weapons = WeaponEffectDBContext.WeaponEffects.ToList();
-        int randomIndex = Random.Next(weapons.Count);
-        WeaponEffect randomWeaponEffect = weapons[randomIndex];
-        return randomWeaponEffect;
+        List<WeaponEffect> weaponEffects = WeaponEffectDBContext.WeaponEffects.ToList();
+
+        List<WeaponEffect> filteredWeaponEffects = weaponEffects.FindAll(weaponEffect => {
+            return weaponEffect.Rarities.ToList().Contains(rarity);
+        });
+
+        int randomIndex = Random.Next(filteredWeaponEffects.Count);
+        return filteredWeaponEffects[randomIndex];
     }
 }

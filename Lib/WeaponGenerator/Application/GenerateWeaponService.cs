@@ -50,7 +50,7 @@ public class GenerateWeaponService
         // Fetches WeaponEffects from the DB. ✅
         // randomly picks a WeaponEffect. ✅
         // Call Google Gemini to generate name. ✅
-        // Select traits on each step based on rarity.
+        // Select traits on each step based on rarity. ✅
         // Build the new weapon. ✅
         // Save the built weapon to the DB.
         // return the new weapon through the API. ✅

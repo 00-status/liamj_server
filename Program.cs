@@ -1,4 +1,3 @@
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,18 +19,27 @@ builder.Services.AddScoped<GoogleGeminiApiClient>();
 
 var app = builder.Build();
 
+// TODO:
+//      Only build weapon_effects API endpoints in dev mode.
+//      Replace strings with enums.
+//      Save the built weapon to the DB.
+//      Add ranged weapons to mundaneWeapon context. ✅
+//      Add 5e 2024 weapon mastery abilities.
 app.MapGet(
     "/api/1/generate_weapon",
     (GenerateWeaponService service, string? rarity) => service.GenerateWeapon(rarity ?? "Uncommon")
 );
-app.MapGet(
-    "/api/1/weapon_effects",
-    (ListWeaponEffectService service) => service.ListWeaponEffects()
-);
-app.MapPost(
-    "/api/1/weapon_effects",
-    (SaveWeaponEffectService service, WeaponEffect weaponEffect) => service.SaveWeapon(weaponEffect)
-);
+
+if (app.Environment.IsDevelopment()) {
+    app.MapGet(
+        "/api/1/weapon_effects",
+        (ListWeaponEffectService service) => service.ListWeaponEffects()
+    );
+    app.MapPost(
+        "/api/1/weapon_effects",
+        (SaveWeaponEffectService service, WeaponEffect weaponEffect) => service.SaveWeapon(weaponEffect)
+    );
+}
 
 app.UseStaticFiles();
 app.UseRouting();

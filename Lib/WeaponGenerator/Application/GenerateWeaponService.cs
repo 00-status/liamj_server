@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 public class GenerateWeaponService
 {
     private readonly Random Random;
@@ -17,7 +15,6 @@ public class GenerateWeaponService
         this.GoogleGeminiApiClient = googleGeminiApiClient;
     }
 
-    // Replace string constants with enums.
     public async Task<IResult> GenerateWeapon(string rarity)
     {
         MundaneWeapon randomMundaneWeapon = PickMundaneWeapon();
@@ -42,18 +39,6 @@ public class GenerateWeaponService
         }
 
         return Results.Ok(builder.Build());
-
-        // Instantiates a new builder. ✅
-        // Randomly picks a base weapon. ✅
-        // Adds base weapon properties to builder. ✅
-        // randomly picks extra damage. ✅
-        // Fetches WeaponEffects from the DB. ✅
-        // randomly picks a WeaponEffect. ✅
-        // Call Google Gemini to generate name. ✅
-        // Select traits on each step based on rarity. ✅
-        // Build the new weapon. ✅
-        // Save the built weapon to the DB.
-        // return the new weapon through the API. ✅
     }
 
     private MundaneWeapon PickMundaneWeapon()

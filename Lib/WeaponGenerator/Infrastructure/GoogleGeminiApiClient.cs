@@ -33,14 +33,18 @@ public class GoogleGeminiApiClient
         Root? parsedJsonResponse = JsonSerializer.Deserialize<Root>(stringResponse);
 
         if (parsedJsonResponse == null
+            || parsedJsonResponse.Candidates == null
             || parsedJsonResponse.Candidates.Count == 0
-            || parsedJsonResponse.Candidates[0].Content.Parts.Count == 0
-        )
-        {
+        ) {
             return null;
         }
 
-        return parsedJsonResponse.Candidates[0].Content.Parts[0].Text;
+        List<Part>? parts = parsedJsonResponse.Candidates[0].Content.Parts;
+        if (parts == null || parts.Count == 0) {
+            return null;
+        }
+
+        return parts[0].Text;
     }
 
     private HttpRequestMessage CreateRequest(string weaponType, List<string> weaponTags)
@@ -62,7 +66,7 @@ public class GoogleGeminiApiClient
 public class Root
 {
     [JsonPropertyName("candidates")]
-    public required List<Candidate> Candidates { get; set; }
+    public required List<Candidate>? Candidates { get; set; }
 }
 
 public class Candidate
@@ -74,7 +78,7 @@ public class Candidate
 public class Content
 {
     [JsonPropertyName("parts")]
-    public required List<Part> Parts { get; set; }
+    public required List<Part>? Parts { get; set; }
 }
 
 public class Part

@@ -20,11 +20,11 @@ builder.Services.AddScoped<GoogleGeminiApiClient>();
 var app = builder.Build();
 
 // TODO:
-//      Only build weapon_effects API endpoints in dev mode.
+//      Only build weapon_effects API endpoints in dev mode. ✅
 //      Replace strings with enums.
 //      Save the built weapon to the DB.
 //      Add ranged weapons to mundaneWeapon context. ✅
-//      Add 5e 2024 weapon mastery abilities.
+//      Add 5e 2024 weapon mastery abilities. ✅
 app.MapGet(
     "/api/1/generate_weapon",
     (GenerateWeaponService service, string? rarity) => service.GenerateWeapon(rarity ?? "Uncommon")

@@ -15,8 +15,7 @@ public class GoogleGeminiApiClient
 
     public async Task<string?> GenerateWeaponName(string weaponType, List<string> weaponTags)
     {
-        if (GAK == null)
-        {
+        if (GAK == null) {
             throw new DomainException("Cannot send Google API request!");
         }
 
@@ -39,7 +38,7 @@ public class GoogleGeminiApiClient
             return null;
         }
 
-        List<Part>? parts = parsedJsonResponse.Candidates[0].Content.Parts;
+        List<Part>? parts = parsedJsonResponse.Candidates[0].Content?.Parts;
         if (parts == null || parts.Count == 0) {
             return null;
         }
@@ -72,7 +71,7 @@ public class Root
 public class Candidate
 {
     [JsonPropertyName("content")]
-    public required Content Content { get; set; }
+    public required Content? Content { get; set; }
 }
 
 public class Content

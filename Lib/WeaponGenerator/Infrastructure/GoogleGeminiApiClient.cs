@@ -45,7 +45,7 @@ public class GoogleGeminiApiClient
             return null;
         }
 
-        List<Part>? parts = candidate.Content?.Parts;
+        List<Part>? parts = candidate?.Content?.Parts;
         if (parts == null || parts.Count == 0) {
             return null;
         }
@@ -72,23 +72,23 @@ public class GoogleGeminiApiClient
 public class Root
 {
     [JsonPropertyName("candidates")]
-    public required List<Candidate?>? Candidates { get; set; }
+    public List<Candidate?>? Candidates { get; set; }
 }
 
 public class Candidate
 {
     [JsonPropertyName("content")]
-    public required Content? Content { get; set; }
+    public Content? Content { get; set; }
 }
 
 public class Content
 {
     [JsonPropertyName("parts")]
-    public required List<Part>? Parts { get; set; }
+    public List<Part>? Parts { get; set; }
 }
 
 public class Part
 {
     [JsonPropertyName("text")]
-    public required string Text { get; set; }
+    public string? Text { get; set; }
 }

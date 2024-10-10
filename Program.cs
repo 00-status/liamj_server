@@ -25,6 +25,8 @@ var app = builder.Build();
 //      Save the built weapon to the DB.
 //      Add ranged weapons to mundaneWeapon context. ✅
 //      Add 5e 2024 weapon mastery abilities. ✅
+//      Make a more complete additionalDamage list.
+
 app.MapGet(
     "/api/1/generate_weapon",
     (GenerateWeaponService service, string? rarity) => service.GenerateWeapon(rarity ?? "Uncommon")

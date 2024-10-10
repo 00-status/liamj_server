@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -38,7 +39,13 @@ public class GoogleGeminiApiClient
             return null;
         }
 
-        List<Part>? parts = parsedJsonResponse.Candidates[0].Content?.Parts;
+        Candidate? candidate = parsedJsonResponse.Candidates[0];
+
+        if (candidate == null) {
+            return null;
+        }
+
+        List<Part>? parts = candidate.Content?.Parts;
         if (parts == null || parts.Count == 0) {
             return null;
         }
@@ -65,7 +72,7 @@ public class GoogleGeminiApiClient
 public class Root
 {
     [JsonPropertyName("candidates")]
-    public required List<Candidate>? Candidates { get; set; }
+    public required List<Candidate?>? Candidates { get; set; }
 }
 
 public class Candidate
